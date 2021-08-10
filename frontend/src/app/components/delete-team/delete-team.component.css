@@ -1,0 +1,44 @@
+.delete_team_page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#message {
+    margin: 200px;
+    line-height: 65px;
+    font-size: 60px;
+    color: #20d6b8;
+}
+
+#choices {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+p {
+    width: 100px;
+    height: 50px;
+    border: solid #20d6b8 4px;
+    border-radius: 20px;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+}
+
+p:hover {
+    box-shadow: 12px 5px 5px;
+}
+
+#yes:hover {
+    cursor: pointer;
+    border-color: green;
+}
+
+#no:hover {
+    cursor: pointer;
+    border-color: red;
+}

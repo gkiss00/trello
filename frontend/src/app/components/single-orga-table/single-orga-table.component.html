@@ -1,0 +1,13 @@
+<div class="home-container">
+    <left-sidebar></left-sidebar>
+    <div class="all-boards">
+        <div *ngIf="teams.length > 0">
+            <div class="team-boards" *ngFor="let team of teams">
+                <div *ngIf="team">
+                    <team-table [fromOrga]="true" [currentTeam]="team"></team-table>
+                </div>
+            </div>
+        </div>
+        <h2 *ngIf="teams.length == 0">This organization doesn't have any board related to its teams</h2>
+    </div>
+</div>

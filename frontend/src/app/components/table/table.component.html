@@ -1,0 +1,53 @@
+<div class="home-container">
+    <left-sidebar></left-sidebar>
+    <div class="all-boards">
+        <div class="personal-boards">
+            <div class="personal-boards-header">
+                <span class="personal-boards-icon">
+                    <i class='far fa-user'></i>
+                </span>
+                <span class="personal-board-text">Your boards</span>
+            </div>
+            <div class="column">
+                <ul class="table-list" *ngIf="tables.length > 0">
+                    <li class="table" *ngFor="let table of tables">
+                        <a class="table-link" [routerLink]='["/table", table.id, titleUrlConverter(table.title)]'>
+                            <mat-card class="table-card">
+                                <mat-card-header>
+                                    <mat-card-title class="card-title">{{ table.title }}</mat-card-title>
+                                </mat-card-header>
+                            </mat-card>
+                        </a>
+                    </li>
+                    <li class="table">
+                        <a class="table-link" routerLink="/table/create">
+                            <mat-card class="new-table-card">
+                                <mat-card-header>
+                                    <mat-card-title class="card-title">Create new board</mat-card-title>
+                                </mat-card-header>
+                            </mat-card>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="table-list" *ngIf="tables.length == 0">
+                    <li class="table">
+                        <a class="table-link" routerLink="/table/create">
+                            <mat-card class="new-table-card">
+                                <mat-card-header>
+                                    <mat-card-title class="card-title">Create new board</mat-card-title>
+                                </mat-card-header>
+                            </mat-card>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div *ngIf="teams.length > 0">
+            <div class="team-boards" *ngFor="let team of teams">
+                <div *ngIf="team">
+                    <team-table [fromOrga]="false" [currentTeam]="team"></team-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

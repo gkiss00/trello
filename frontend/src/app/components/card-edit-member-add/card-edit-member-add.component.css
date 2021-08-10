@@ -1,0 +1,122 @@
+.card-add-member-controls-wrapper{
+    margin: 8px 0;
+    position: absolute;
+    background: #fff;
+    border-radius: 3px;
+    width: 300px;
+    height: 250px;
+    position: absolute;
+    box-shadow: 0 8px 16px -4px rgba(9,30,66,.25),0 0 0 1px rgba(9,30,66,.08);
+    width: 304px;
+    z-index: 80;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.card-add-member-controls{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 55%;
+}
+
+.header{
+    margin-top: 40px;
+    height: 40px;
+    position: relative;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.close-member-add-controls{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 81;
+}
+
+.add-member, .remove-member{
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: #20d6b8;
+    color: #fff !important;
+}
+
+.add-member:hover{
+    background-color: #20d6b8c0;
+}
+
+.add-member-disabled, .remove-member-disabled{
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: #a3d8cf98;
+    color: #fff !important;
+}
+
+.add-member-disabled:hover, .remove-member-disabled:hover{
+    cursor: not-allowed;
+}
+
+.remove-member-disabled{
+    background-color: #c5115663;
+}
+
+.remove-member{
+    background-color: rgba(212, 41, 78, 0.767);
+}
+
+.remove-member:hover{
+    background-color: rgba(212, 41, 78, 0.637);
+}
+
+.mat-option-disabled:hover{
+    cursor: not-allowed;
+}
+
+.member-username-input{
+    background-color: #fff;
+    border: 1px solid gray !important;
+    color: #172b4d;
+    font-size: 16px;
+    display: block;
+    margin: 0;
+    transition: margin 85ms ease-in,background 85ms ease-in;
+    width: 100%;
+    border-radius: 3px;
+    padding: 3px 6px;
+}
+
+.members-controls-header{
+    display: inline;
+    text-align: center;
+    color: #5e6c84;
+    font-size: 14px;
+    margin: 0 12px;
+    overflow: hidden;
+    padding: 0 32px;
+    position: relative;
+}
+
+.members-controls-new-member-name{
+    display: block;
+    position: relative;
+    background-color: rgba(9,30,66,.08);
+    padding: 2px 2px 2px 8px;
+    border-radius: 3px;
+    width: 70%;
+    margin: auto;
+}

@@ -1,0 +1,119 @@
+.table-remove-member-wrapper{
+    float: right;
+}
+
+.table-remove-member{
+    display: inline-block;
+    position: relative;
+    padding: 0 8px;
+}
+
+.remove-members{
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: rgba(212, 41, 78, 0.767);
+    color: #fff !important;
+}
+
+.remove-members:hover{
+    background-color: rgba(212, 41, 78, 0.637);
+}
+
+.table-remove-member-controls-wrapper{
+    margin: 8px 0;
+    position: absolute;
+    right: 8px;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 8px 16px -4px rgba(9,30,66,.25),0 0 0 1px rgba(9,30,66,.08);
+    width: 300px;
+    height: 250px;
+    z-index: 20;
+}
+
+.close-member-remove-controls{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 71;
+}
+
+.table-remove-member-controls{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 85%;
+}
+
+.new-section-title{
+    background-color: #fff;
+    border: 1px solid gray !important;
+    color: #172b4d;
+    font-size: 16px;
+    display: block;
+    margin: 0;
+    transition: margin 85ms ease-in,background 85ms ease-in;
+    width: 100%;
+    border-radius: 3px;
+    padding: 3px 6px;
+}
+
+.members-controls-remove-member-name{
+    display: block;
+    position: relative;
+    background-color: rgba(9,30,66,.08);
+    padding: 2px 2px 2px 8px;
+    border-radius: 3px;
+    width: 50%;
+    margin: auto;
+}
+
+.cancel-deletion{
+    display: inline;
+}
+
+.remove-member-disabled{
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: #c5115663;
+    color: #fff !important;
+}
+
+.remove-member-disabled:hover{
+    cursor: not-allowed;
+}
+
+.remove-member{
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: rgba(212, 41, 78, 0.767);
+    color: #fff !important;
+}
+
+.remove-member:hover{
+    background-color: rgba(212, 41, 78, 0.637);
+}

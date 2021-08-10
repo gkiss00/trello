@@ -1,0 +1,8 @@
+<div class="home-container">
+    <left-sidebar></left-sidebar>
+    <div class="all-boards">
+        <div class="team-boards" *ngIf="team">
+            <team-table [fromOrga]="false" [currentTeam]="team"></team-table>
+        </div>
+    </div>
+</div>

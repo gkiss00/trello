@@ -1,0 +1,11 @@
+<div class="main">
+    <h2>{{team.name}}</h2>
+    <div>
+        <p>Are you sure that you want to remove this team from the organization?</p>
+        <p>/!\ This will remove all the users present in this team, unless those who are in another team of the organization /!\</p>
+        <div class="buttons">
+            <button class="i" (click)="back()">Cancel</button>
+            <button class="i" (click)="delete()">Remove</button>
+        </div>
+    </div>
+</div>

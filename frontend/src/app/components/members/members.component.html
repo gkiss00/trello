@@ -1,0 +1,29 @@
+<div class="team-members-view">
+    <h1 *ngIf="team">{{team.name}}</h1>
+    <h2>Members</h2>
+    <div class="team-members">
+        <ul *ngIf="users.length > 0">
+            <li class="team-member" *ngFor="let user of users">
+                <div class="names">
+                    <p>{{user.firstName}}</p>
+                    <p>{{user.lastName}}</p>
+                </div>
+                <div class=pseudo>
+                    <p>@</p>
+                    <p>{{user.pseudo}}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="add-members">
+        <h1 id="message">Add a member to the team</h1>
+        <div id="form">
+            <textarea #pseudo id="input" placeholder="Member pseudo"></textarea>
+            <p #error id=error></p>
+            <p id="validate" (click)="addMember(pseudo.value)">Add</p>
+        </div>
+    </div>
+    <div class="leave-team">
+        <p id="leave" (click)="leaveTeam()">Leave team [-></p>
+    </div>
+</div>

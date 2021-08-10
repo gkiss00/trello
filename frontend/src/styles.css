@@ -1,0 +1,19 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+}
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.field-error {
+    float: right;
+}
+

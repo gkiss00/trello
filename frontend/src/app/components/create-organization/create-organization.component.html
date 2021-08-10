@@ -1,0 +1,59 @@
+<div class="create_organization">
+    <form [formGroup]="create_org">
+        <h1>Create an organization</h1>
+        <mat-form-field appearance="outline">
+            <input #title matInput placeholder="Title" [formControl]="ctlTitle" required appSetFocus>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('required')">Title is required</mat-error>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('minlength')">Minimum length of title is 3</mat-error>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('maxlength')">Maximum length of title is 20</mat-error>
+        </mat-form-field>
+        <!-- Add teams to the orga -->
+        <div class="inputButton">
+            <div class="but_inp">
+                <mat-form-field appearance="outline">
+                    <mat-label>Add teams in the organization</mat-label>
+                    <mat-select [formControl]="ctlTeams">
+                        <mat-option *ngFor="let t of teams" [value]="t.id">
+                            {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button (click)="addTeam()">+</button>
+            </div>
+            <div *ngIf="teamsToDisplay?.length > 0">
+                <p id="teamslist">Teams selected</p>
+                <ul>
+                    <li *ngFor="let t of teamsToDisplay">
+                        <span>{{t}}</span>
+                        <button id="del" (click)="deleteTeam(t)">x</button></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Add users to the orga -->
+        <div class="inputButton">
+            <div class="but_inp">
+                <mat-form-field appearance="outline">
+                    <mat-label>Add other users</mat-label>
+                    <input matInput [formControl]="ctlUsers">
+                </mat-form-field>
+                <button (click)="addUser()">+</button>
+            </div>
+            <p *ngIf="userNotExist" class="error">This user doesn't exist</p>
+            <p *ngIf="userAlreadyIn" class="error">This user is already added</p>
+            <p *ngIf="selfAdded" class="error">You are automatically added to the table</p>
+            <p *ngIf="userAlreadyInATeam" class="error">This user has already been added from his team</p>
+            <div *ngIf="usersToDisplay?.length > 0">
+                <p id="userslist">Users selected</p>
+                <ul>
+                    <li *ngFor="let u of usersToDisplay">
+                        <span>{{u}}</span>
+                        <button id="del" *ngIf="u != currentUser.pseudo" (click)="deleteUser(u)">x</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="buttons">
+            <button type="reset" mat-button routerLink="/table">Cancel</button>
+            <button type="submit" mat-button form="create_org" (click)="create()">Create</button>
+        </div>
+    </form>
+</div>

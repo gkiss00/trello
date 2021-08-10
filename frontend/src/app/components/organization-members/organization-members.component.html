@@ -1,0 +1,26 @@
+<div class="main">
+    <h1 *ngIf="organization">{{organization.name}}</h1>
+    <div>
+        <h2>List of the members : </h2>
+        <ul *ngIf="users.length > 0">
+            <li *ngFor="let user of users">
+                <span>{{user.pseudo}}</span>
+                <button id="del" (click)="deleteUser(user)">x</button>
+            </li>
+        </ul>
+        <div class="add_user">
+            <div class="inputButton">
+                <div class="but_inp">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Add other users</mat-label>
+                        <input matInput [formControl]="ctlUsers">
+                    </mat-form-field>
+                    <button (click)="addUser()">+</button>
+                </div>
+                <p *ngIf="userNotExist" class="error">This user doesn't exist</p>
+                <p *ngIf="userAlreadyIn" class="error">This user is already in the organization</p>
+                <p *ngIf="selfAdded" class="error">You are automatically added to the table</p>
+            </div>
+        </div>
+        <button (click)="leaveOrga()">Leave this organization</button>
+    </div>

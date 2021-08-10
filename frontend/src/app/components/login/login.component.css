@@ -1,0 +1,13 @@
+form {
+    width: 30%;
+    display: grid;
+    grid-row-gap: 10px;
+    position: relative;
+    top: 10%;
+    left: 33%;
+}
+
+.password-visibility {
+    text-decoration: none;
+    color: unset;
+}

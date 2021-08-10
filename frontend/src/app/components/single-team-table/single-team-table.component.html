@@ -1,0 +1,39 @@
+<div class="team-boards-header">
+    <span class="team-boards-icon">
+        <span class="material-icons">group</span>
+    </span>
+    <span class="team-board-text">{{ currentTeam.name }}</span>
+</div>
+<div class="column">
+    <ul class="table-list" *ngIf="currentTeam.tablesTeam.length > 0">
+        <li class="table" *ngFor="let table of currentTeam.tablesTeam">
+            <a class="table-link" [routerLink]='["/table", table.id, titleUrlConverter(table.title)]'>
+                <mat-card class="table-card">
+                    <mat-card-header>
+                        <mat-card-title class="card-title">{{ table.title }}</mat-card-title>
+                    </mat-card-header>
+                </mat-card>
+            </a>
+        </li>
+        <li class="table">
+            <a class="table-link" routerLink="/table/create">
+                <mat-card class="new-table-card">
+                    <mat-card-header>
+                        <mat-card-title class="card-title">Create new board</mat-card-title>
+                    </mat-card-header>
+                </mat-card>
+            </a>
+        </li>
+    </ul>
+    <ul class="table-list" *ngIf="currentTeam.tablesTeam.length == 0">
+        <li class="table">
+            <a class="table-link" routerLink="/table/create">
+                <mat-card class="new-table-card">
+                    <mat-card-header>
+                        <mat-card-title class="card-title">Create new board</mat-card-title>
+                    </mat-card-header>
+                </mat-card>
+            </a>
+        </li>
+    </ul>
+</div>

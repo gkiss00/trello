@@ -1,0 +1,76 @@
+<form id="frm" class="form" [formGroup]="frm" novalidate>
+    <h1>Create a new board</h1>
+    <div class="form">
+        <mat-form-field appearance="outline">
+            <input matInput (change)="titleChanged()" placeholder="Title" [formControl]="ctlTitle" required appSetFocus>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('required')">Title is required</mat-error>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('minlength')">Minimum length of title is 3</mat-error>
+            <mat-error class="field-error" *ngIf="ctlTitle.hasError('maxlength')">Maximum length of title is 20</mat-error>
+        </mat-form-field><br>
+        <p *ngIf="titleNotValid" class="error">Title is not valid</p>
+        <div class="view">
+            <mat-form-field appearance="outline">
+                <mat-label>View</mat-label>
+                <mat-select (selectionChange)="viewChanged($event.value)" [formControl]="ctlView" required>
+                    <mat-option [value]="2">Organization</mat-option>
+                    <mat-option [value]="1">Team</mat-option>
+                    <mat-option [value]="0">Private</mat-option>
+                </mat-select>
+                <mat-error class="field-error" *ngIf="ctlView.hasError('required')">You must select a view</mat-error>
+            </mat-form-field>
+            <p *ngIf="viewUnselected" class="error">You must select a view</p>
+            <!-- SELECTED PRIVATE -->
+            <div *ngIf="selectedView==0">
+                <mat-checkbox [color]="accent" (click)="checkedChanged()">Add users to the table</mat-checkbox> <br>
+                <div id="addUsers" *ngIf="checked==true">
+                    <mat-form-field appearance="outline">
+                        <input matInput type="text" [formControl]="ctlUsersIn" placeholder="Add users" aria-label="Users">
+                    </mat-form-field>
+                    <button (click)="addUser()">+</button>
+                </div>
+                <div *ngIf="checked==true">
+                    <p *ngIf="checkedButUsersInEmpty" class="error">You have checked "add users" but havent added any</p>
+                    <p *ngIf="userNotExist" class="error">This user doesn't exist</p>
+                    <p *ngIf="userAlreadyIn" class="error">This user is already added</p>
+                    <p *ngIf="selfAdded" class="error">You are automatically added to the table</p>
+                    <div *ngIf="usersInToDisplay.length">
+                        <p id="userstext">Users already added :</p>
+                        <ul>
+                            <li id="userlist" *ngFor="let u of usersInToDisplay">
+                                <span>{{u}}</span>
+                                <button id="del" (click)="deleteUser(u)">x</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- SELECTED TEAM -->
+            <mat-form-field *ngIf="selectedView==1" appearance="outline">
+                <mat-label>Team to add on this table</mat-label>
+                <mat-select (selectionChange)="teamSelected()" [formControl]="ctlTeam" required>
+                    <mat-option *ngFor="let t of userTeams" [value]="t.id">
+                        {{t.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <p *ngIf="viewOneButTeamNull" class="error">You must select a team</p>
+            <!-- SELECTED ORGANIZATION -->
+            <mat-form-field *ngIf="selectedView==2" appearance="outline">
+                <mat-label>Organization to add on this table</mat-label>
+                <mat-select (selectionChange)="orgaSelected()" [formControl]="ctlOrganization" required>
+                    <mat-option *ngFor="let o of userOrganizations" [value]="o.id">
+                        {{o.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <p *ngIf="viewTwoButOrgaNull" class="error">You must select an organization</p>
+            <div class=" footer ">
+                <button type="reset" mat-button routerLink="/table">Cancel</button>
+                <button type="submit" [disabled]="loading" mat-button form="frm" (click)="create() ">Create</button>
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                />
+
+            </div>
+        </div>
+    </div>
+</form>

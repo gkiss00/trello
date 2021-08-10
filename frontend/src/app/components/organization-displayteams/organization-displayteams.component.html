@@ -1,0 +1,26 @@
+<div class="main">
+    <span *ngIf="teams.length !== 0">
+        <h1>{{organization.name}}</h1>
+    <ul class="name" *ngFor="let t of teams; let i = index">
+        <li [class.line]="i>0"><h2 class="t_name">{{t.name}}</h2>
+            <p class="userlist">List of users in this team:</p>
+    <ul *ngFor="let u of t.usersIn">
+        <li>{{u.pseudo}}</li>
+    </ul>
+    </li>
+    <button class="buttons" (click)="remove(t.id)">Remove this team from the organization</button>
+    </ul>
+    </span>
+    <h2 *ngIf="teams.length === 0">This organization doesn't contain any team</h2>
+    <form class="but_inp" *ngIf="teams_addable.length > 0" [formGroup]="add_team">
+        <mat-form-field appearance="outline">
+            <mat-label>Add a team in the organization</mat-label>
+            <mat-select [formControl]="ctlTeams">
+                <mat-option *ngFor="let t of teams_addable" [value]="t.id">
+                    {{t.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button (click)="addTeam()">+</button>
+    </form>
+</div>

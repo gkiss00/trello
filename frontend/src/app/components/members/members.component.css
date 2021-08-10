@@ -1,0 +1,75 @@
+.team-members-view {
+    padding: 100px;
+    max-width: 1000px;
+    min-width: 400px;
+    margin-left: 100px;
+}
+
+.team-members {
+    width: 100%;
+    display: flex;
+}
+
+.team-member {
+    min-width: 400px;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 15px;
+    border-bottom: solid grey 1px;
+    border-top: solid grey 1px;
+}
+
+#input {
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+    border-bottom: solid #20d6b8 1px;
+}
+
+#error {
+    color: red;
+}
+
+.names {
+    display: flex;
+}
+
+.pseudo {
+    display: flex;
+}
+
+#validate {
+    width: 100px;
+    text-align: center;
+    border: solid grey 2px;
+    border-radius: 20px;
+}
+
+#validate:hover {
+    cursor: pointer;
+    border-color: green;
+    box-shadow: 12px 5px 5px;
+}
+
+.leave-team {
+    min-width: 200px;
+    max-width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#leave {
+    color: grey;
+}
+
+#leave:hover {
+    cursor: pointer;
+}

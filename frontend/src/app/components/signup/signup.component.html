@@ -1,0 +1,84 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <h1>Signup</h1>
+    <mat-form-field appearance="outline">
+        <div class="form-input-wrapper">
+            <input #pseudo matInput placeholder="Pseudo" tabindex="2" [(ngModel)]="pseudoValue" [formControl]="ctlPseudo" required appSetFocus>
+            <div class="input-options">
+                <a type="button" class="clear-input" *ngIf="pseudo.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearPseudo(); pseudo.value=''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlPseudo.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="ctlPseudo.hasError('custom')">{{ctlPseudo.errors.custom}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <div class="form-input-wrapper">
+            <input #password matInput [type]="!hide ? 'password' : 'text'" placeholder="Password" tabindex="3" [formControl]="ctlPassword" required>
+            <div class="input-options">
+                <a class="password-visibility" type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </a>
+                <a type="button" class="clear-input" *ngIf="password.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearPassword(); password.value=''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlPassword.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="ctlPassword.hasError('custom')">{{ctlPassword.errors.custom}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline"> 
+        <div class="form-input-wrapper">
+            <input #passwordConfirm matInput [type]="!hide2 ? 'password' : 'text'" placeholder="Password confirmation" tabindex="4" [formControl]="ctlPasswordConfirm" required>
+            <div class="input-options">
+                <a class="password-visibility" type="button" mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide2">
+                    <mat-icon>{{hide2 ? 'visibility' : 'visibility_off'}}</mat-icon>
+                </a>
+                <a type="button" class="clear-input" *ngIf="passwordConfirm.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearPasswordConfirm(); passwordConfirm.value=''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlPasswordConfirm.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="ctlPasswordConfirm.hasError('custom')">{{ctlPasswordConfirm.errors.custom}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <div class="form-input-wrapper">
+            <input #email matInput placeholder="Email" tabindex="5" [formControl]="ctlEmail" required>
+            <div class="input-options">
+                <a type="button" class="clear-input" *ngIf="email.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearEmail(); email.value=''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlEmail.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="ctlEmail.hasError('custom')">{{ctlEmail.errors.custom}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <div class="form-input-wrapper">
+            <input #firstname matInput placeholder="Firstname" tabindex="6" [formControl]="ctlFirstName">
+            <div class="input-options">
+                <a type="button" class="clear-input" *ngIf="firstname.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFirstName(); firstname.value=''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlFirstName.hasError('custom')">{{ctlFirstName.errors.custom}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <div class="form-input-wrapper">
+            <input #lastName matInput placeholder="LastName" tabindex="7" [formControl]="ctlLastName">
+            <div class="input-options">
+                <a type="button" class="clear-input" *ngIf="lastName.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearLastName(); lastName.value=null">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </div>
+        </div>
+        <mat-error class="field-error" *ngIf="ctlLastName.hasError('custom')">{{ctlLastName.errors.custom}}</mat-error>
+    </mat-form-field>
+    <div>
+        <button [disabled]="loading" mat-stroked-button>Signup</button>
+        <img *ngIf="loading"
+            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+</form>

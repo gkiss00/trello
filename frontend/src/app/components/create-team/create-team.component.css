@@ -1,0 +1,57 @@
+.create_team_page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#message {
+    margin: 200px;
+    line-height: 65px;
+    font-size: 60px;
+    color: #20d6b8;
+    text-align: center;
+}
+
+#form {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    width: 200px;
+}
+
+#input {
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+    border-bottom: solid #20d6b8 1px;
+}
+
+#input::selection {
+    border-bottom: solid #20d6b8 2px;
+}
+
+#error {
+    font-size: 15px;
+    color: red;
+}
+
+#validate {
+    width: 200px;
+    height: 50px;
+    border: solid #20d6b8 1px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 30px;
+    font-style: italic;
+    color: #20d6b8;
+}
+
+#validate:hover {
+    box-shadow: 5px 5px 5px;
+}

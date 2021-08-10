@@ -1,0 +1,49 @@
+<div #window class="card-add-member-controls-wrapper">
+    <a class="close-member-add-controls" matSuffix mat-icon-button type="button" (click)="closeRequest(); stopPropagation($event); disabled = !disabled">
+        <mat-icon>close</mat-icon>
+    </a>
+    <div class="header">
+        <span class="member-controls-header" *ngIf="!action">Add member</span>
+        <span class="member-controls-header" *ngIf="action">Remove member</span>
+    </div>
+    <div class="card-add-member-controls">
+        <div class="member-controls-input-wrapper" [hidden]="action || disabled">
+            <input #username class="member-username-input" type="text" placeholder="Username..." [matAutocomplete]="autoA" maxlength="512">
+            <mat-autocomplete #autoA="matAutocomplete" [displayWith]="displayUsername" (optionSelected)="optionValueA=$event.option.value">
+                <mat-option #autoCompleteOption *ngFor="let user of tableUsers; let i = index;" [disabled]="AlreadyJoined(user.id)" [value]="user" (click)="joined[i] || disabled = !disabled; stopPropagation($event);">
+                    {{user.pseudo}}
+                    <small *ngIf="joined[i]">Following</small>
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div class="member-controls-input-wrapper" [hidden]="!action || disabled">
+            <input #usernameRemove class="member-username-input" type="text" placeholder="Username..." [matAutocomplete]="autoR" maxlength="512">
+            <mat-autocomplete #autoR="matAutocomplete" [displayWith]="displayUsername" (optionSelected)="optionValueR=$event.option.value">
+                <mat-option #autoCompleteOption *ngFor="let user of tableUsers; let i = index;" [disabled]="!AlreadyJoined(user.id)" [value]="user" (click)="!joined[i] || disabled = !disabled; stopPropagation($event);">
+                    {{user.pseudo}}
+                    <small *ngIf="!joined[i]">Isn't following</small>
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div class="member-controls-selected" [hidden]="!disabled">
+            <span class="members-controls-header" *ngIf="!action">Add Member</span>
+            <span class="members-controls-header" *ngIf="action">Remove Member</span>
+            <span class="members-controls-new-member-name" *ngIf="optionValueA">
+                {{optionValueA.pseudo}}
+                <a class="remove-new-member" matSuffix mat-icon-button type="button" (click)="disabled = !disabled; username.value = ''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </span>
+            <span class="members-controls-new-member-name" *ngIf="optionValueR">
+                {{optionValueR.pseudo}}
+                <a class="remove-new-member" matSuffix mat-icon-button type="button" (click)="disabled = !disabled; usernameRemove.value = ''">
+                    <mat-icon>close</mat-icon>
+                </a>
+            </span>
+        </div>
+        <a class="add-member-disabled" type="button" *ngIf="!disabled && !action">Add</a>
+        <a class="add-member" type="button" *ngIf="disabled && !action" (click)="addMember(optionValueA); disabled = !disabled; username.value = ''">Add</a>
+        <a class="remove-member-disabled" type="button" *ngIf="!disabled && action">Remove</a>
+        <a class="remove-member" type="button" *ngIf="disabled && action" (click)="deleteMember(optionValueR); disabled = !disabled; usernameRemove.value = ''">Remove</a>
+    </div>
+</div>

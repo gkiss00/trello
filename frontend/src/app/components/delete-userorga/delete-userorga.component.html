@@ -1,0 +1,10 @@
+<div class="main">
+    <h1>{{orga.name}}</h1>
+    <div>
+        <h2>{{pseudo}}</h2>
+        <p *ngIf="pseudo !== currentUser.pseudo">Are you sure that you want to remove this user from this organization?</p>
+        <p *ngIf="pseudo === currentUser.pseudo">Are you sure that you want to leave this organization?</p>
+        <button class="i" (click)="back()">Cancel</button>
+        <button class="i" (click)="delete()">Delete</button>
+    </div>
+</div>

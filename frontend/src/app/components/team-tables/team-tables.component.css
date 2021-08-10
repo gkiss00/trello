@@ -1,0 +1,23 @@
+.home-container{
+    display : flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.team-boards {
+    padding: 0 0 20px;
+    margin: 0 auto;
+    max-width: 1250px;
+    line-height: 20px;
+}
+
+.all-boards{
+    line-height: 20px;
+    margin: 40px 16px 0;
+    width: 100%;
+    max-width: 825px;
+    min-width: 288px;
+    position: sticky;
+    top: 0px;
+}

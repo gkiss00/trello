@@ -1,0 +1,32 @@
+<div class="table-remove-member-wrapper">
+    <div #window class="table-remove-member">
+        <a class="remove-members" type="button" (click)="membersInput = !membersInput" *ngIf="tableUsers.length > 0">Remove member</a>
+        <div class="table-remove-member-controls-wrapper" [hidden]="!membersInput">
+            <a class="close-member-remove-controls" matSuffix mat-icon-button type="button" (click)="membersInput = !membersInput; disabled = false; username.value = ''">
+                <mat-icon>close</mat-icon>
+            </a>
+            <div class="table-remove-member-controls">
+                <div class="member-controls-input-wrapper" [hidden]="disabled">
+                    <span class="member-controls-header">Remove members from table</span>
+                    <input #username class="new-section-title" type="text" placeholder="Username..." [matAutocomplete]="auto" maxlength="512">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUsername" (optionSelected)="optionValue=$event.option.value">
+                        <mat-option #autoCompleteOption *ngFor="let user of tableUsers" [value]="user" (click)="disabled = !disabled; stopPropagation($event); ">
+                            {{user.pseudo}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+                <div class="member-controls-selected" [hidden]="!disabled">
+                    <span class="members-controls-header">Remove members from table</span>
+                    <span class="members-controls-remove-member-name" *ngIf="optionValue">
+                        {{optionValue.pseudo}}
+                        <a class="cancel-deletion" matSuffix mat-icon-button type="button" (click)="disabled = !disabled; username.value = ''">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </span>
+                </div>
+                <a class="remove-member-disabled" type="button" *ngIf="!disabled">Remove</a>
+                <a class="remove-member" type="button" *ngIf="disabled" (click)="deleteMember(optionValue);membersInput = !membersInput; disabled = !disabled; username.value = ''">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>

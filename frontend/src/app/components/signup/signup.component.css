@@ -1,0 +1,41 @@
+form {
+    width: 30%;
+    display: grid;
+    position: relative;
+    top: 2%;
+    left: 33%;
+}
+
+.password-visibility{
+    text-decoration: none;
+    color: unset;
+    display: block;
+    width: 2.5em;
+    height: 1.8em;
+}
+
+.clear-input{
+    text-decoration: none;
+    color: unset;
+    display: block;
+    width: 2.5em;
+    max-height: 1.8em;
+}
+
+.input-options{
+    white-space: nowrap;
+    flex: none;
+    position: relative;
+    display: flex !important;
+    line-height: 1px !important;
+}
+
+.form-input-wrapper{
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.mat-icon{
+    vertical-align: top !important;
+}

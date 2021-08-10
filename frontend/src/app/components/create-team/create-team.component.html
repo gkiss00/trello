@@ -1,0 +1,8 @@
+<div class="create_team_page">
+    <h1 id="message">Enter the name of your team</h1>
+    <div id="form">
+        <textarea #name id="input" placeholder="Team name"></textarea>
+        <p #error id=error></p>
+        <p id="validate" (click)="createNewTeam(name.value)">Create</p>
+    </div>
+</div>

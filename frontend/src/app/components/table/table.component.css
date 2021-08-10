@@ -1,0 +1,146 @@
+.home-container{
+    display : flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+a:hover {
+    color: #091e42;
+}
+
+a:active, a:hover, a:focus {
+    outline: 0;
+}
+
+.boards-icon{
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+
+.table-link {
+    text-decoration: none;
+    box-shadow: none;
+    margin: 0;
+    overflow: hidden;
+}
+
+.table-card:hover{
+    background-color:#20d6b888;
+}
+
+.table-card {
+    background-color : #20d6b8;
+    max-width: 181.25px;
+    height : 100px;
+    color : #f0fffc;
+}
+
+.table-card .mat-card-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+}
+
+.mat-card-header {
+    display : flex;
+    justify-content: center;
+}
+
+.new-table-card:hover {
+    background-color: rgba(9,30,66,.04);
+    color : #172b4dc2;
+}
+
+.new-table-card {
+    background-color: rgba(9,30,66,.08);
+    max-width: 181.25px;
+    height : 100px;
+    text-align: center;
+    color : #172b4d;
+}
+
+.new-table-card .mat-card-title{
+    font-weight: 400;
+    font-size : 14px;
+    padding-top : 26px;
+}
+
+.card-title{
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.table{
+    list-style: none;
+    text-align: center;
+    display: inline-block;
+    max-width : 181.25px;
+    margin: 0 1.8% 2% 0;
+}
+
+.all-boards{
+    line-height: 20px;
+    margin: 40px 16px 0;
+    width: 100%;
+    max-width: 825px;
+    min-width: 288px;
+    top: 0px;
+}
+
+.personal-boards, .team-boards {
+    padding: 0 0 20px;
+    margin: 0 auto;
+    max-width: 1250px;
+    line-height: 20px;
+}
+
+.personal-boards-header {
+    margin: 0 0 0 40px;
+    padding: 0 0 11px;
+    position: relative;
+    display: flex;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.personal-boards-icon {
+    left: -40px;
+    position: absolute;
+    top: 0;
+    color: #42526e;
+    height: 32px;
+    line-height: 32px;
+    width: 32px;
+    font-size: 18px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: bottom;
+}
+
+.personal-board-text {
+    display: inline-block;
+    line-height: 24px;
+    margin: 4px 0 0;
+    font-size: 16px;
+    font-weight: 700;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -1,0 +1,178 @@
+<div class="left-nav">
+    <nav class="left-sidebar">
+        <ul class="sidebar-list">
+            <li class="sidebar-list-elem">
+                <a class="user-boards" [routerLink]='["/table"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <span class="sidebar-list-elem-content">
+                        <span class="boards-icon">
+                            <i class='fas fa-table'></i>
+                        </span>
+                    </span>
+                    <span class="sidebar-list-elem-content-text">Boards</span>
+                </a>
+            </li>
+            <li class="sidebar-list-elem">
+                <div class="teams">
+                    <span class="sidebar-list-elem-content-text">Teams</span>
+                    <a role="button" class="add-team" [routerLink]='["/createTeam"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                        true}">
+                        <span class="sidebar-list-elem-content">
+                            <span class="boards-icon">
+                                <span class="material-icons">add</span>
+                        </span>
+                        </span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <ul *ngIf="teams.length > 0" class="personal-team-list">
+            <li *ngFor="let team of teams" class="sidebar-team-list-elem">
+                <a class="user-team" [routerLink]="" (click)="toggleTeam(team.id)" [class.active-link]="isHomeRoute(team.id) && team.id != selectedTeam">
+                    <!--- [class.active-link]="isHomeRoute(team.id) && team.id != selectedTeam" -->
+                    <span class="sidebar-list-elem-content">
+                        <span class="teams-icon">
+                            <span class="material-icons">groups</span>
+                    </span>
+                    </span>
+                    <span class="sidebar-team-elem-content-text">{{ team.name }}</span>
+                    <span class="arrow-icon" *ngIf="team.id != selectedTeam">
+                            <span class="material-icons">keyboard_arrow_down</span>
+                    </span>
+                    <span class="arrow-icon" *ngIf="team.id == selectedTeam">
+                        <span class="material-icons">keyboard_arrow_up</span>
+                    </span>
+                </a>
+                <ul class="team-details" *ngIf="team.id == selectedTeam">
+                    <li class="team-members-elem">
+                        <a class="team-members" [routerLink]='["/team", team.id, "members"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="material-icons">people_outline</span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Members</span>
+                        </a>
+                    </li>
+                    <li class="team-members-elem">
+                        <a class="team-members" [routerLink]='["/", team.id, "tables"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="boards-icon">
+                                        <i class='fas fa-table'></i>
+                                    </span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Boards</span>
+                        </a>
+                    </li>
+                    <li *ngIf="isAdmin()" class="team-members-elem">
+                        <a class="team-members" [routerLink]='["/team/", team.id, "delete"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="boards-icon">
+                                        <i class="material-icons">delete</i>
+                                    </span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Delete</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-elem">
+                <div class="teams">
+                    <span class="sidebar-list-elem-content-text">Organizations</span>
+                    <a role="button" class="add-team" [routerLink]='["/organization/create"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                        true}">
+                        <span class="sidebar-list-elem-content">
+                            <span class="boards-icon">
+                                <span class="material-icons">add</span>
+                        </span>
+                        </span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <ul *ngIf="organizations.length > 0" class="personal-org-list">
+            <li *ngFor="let org of organizations" class="sidebar-org-list-elem">
+                <!---
+                <a class="user-team" [routerLink]="" (click)="toggleTeam(team.id)" [class.active-link]="isHomeRoute(team.id) && team.id != selectedTeam"></a>
+                -->
+                <a class="user-org" [routerLink]="" (click)="toggleOrganization(org.id)" [class.active-link]="isOrgRoute(org.id) && org.id != selectedOrganization">
+                    <span class="sidebar-list-elem-content">
+                        <span class="teams-icon">
+                            <mat-icon>business</mat-icon>
+                    </span>
+                    </span>
+                    <span class="sidebar-team-elem-content-text">{{ org.name }}</span>
+                    <span class="arrow-icon" *ngIf="org.id != selectedOrganization">
+                            <span class="material-icons">keyboard_arrow_down</span>
+                    </span>
+                    <span class="arrow-icon" *ngIf="org.id == selectedOrganization">
+                        <span class="material-icons">keyboard_arrow_up</span>
+                    </span>
+                </a>
+                <ul class="org-details" *ngIf="org.id == selectedOrganization">
+                    <li class="org-members-elem">
+                        <a class="org-members" [routerLink]='["/organization/", org.id, "teams"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="material-icons">
+                                        groups
+                                    </span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Teams</span>
+                        </a>
+                    </li>
+                    <li class="org-members-elem">
+                        <a class="org-members" [routerLink]='["/organization", org.id, "members"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="material-icons">people_outline</span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Members</span>
+                        </a>
+                    </li>
+                    <li class="org-members-elem">
+                        <a class="org-members" [routerLink]='["/organization/",org.id, "tables"]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="boards-icon">
+                                        <i class='fas fa-table'></i>
+                                    </span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Boards</span>
+                        </a>
+                    </li>
+                    <li class="org-members-elem">
+                        <a class="org-members" [routerLink]='["/organization/confirm_delete/", org.id]' routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+                            true}">
+                            <span class="sidebar-list-elem-content">
+                                <span class="teams-icon">
+                                    <span class="boards-icon">
+                                        <i class="material-icons">delete</i>
+                                    </span>
+                            </span>
+                            </span>
+                            <span class="sidebar-team-detail-elem-content-text">Delete</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,40 @@
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.nav-link * {
+  vertical-align: middle;
+}
+
+.navbar.navbar-expand-sm.navbar-toggleable-sm.navbar-light.bg-white.border-bottom.box-shadow.mb-3{
+  background-color: #20d6b8 !important;
+  margin-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
+.container {
+  max-width : 100%;
+  background-color: #20d6b8;
+}
+
+.nav-link.text-dark{
+  color : #e3fffa !important;
+}
+
+.nav-link.text-dark:hover{
+  color : #e3fffac5 !important;
+}
+
+.text-info {
+  color : #212529 !important;
+}
+

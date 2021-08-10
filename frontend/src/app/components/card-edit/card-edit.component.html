@@ -1,0 +1,106 @@
+<div class="card-edit-container">
+    <div class="card-edit-canvas">
+        <div class="card-edit-details-wrapper" #cardWindow>
+            <a class="close-card-details" type="button" (click)="closeCard()">
+                <mat-icon>close</mat-icon>
+            </a>
+            <div class="card-edit-details" *ngIf="currentCard != null">
+                <div class="card-header">
+                    <div class="card-details-title">
+                        <span class="card-title">{{currentCard.title}}</span>
+                        <a class="card-title-edit" type="button" [hidden]="hiddenTitle" (click)="hiddenTitle = !hiddenTitle; stopPropagation($event)">Edit</a>
+                    </div>
+                    <div class="card-details-section-title">
+                        <span class="section-title">From section: {{currentCard.section.title}}</span>
+                    </div>
+                    <div class="card-title-edition" *ngIf="hiddenTitle">
+                        <textarea #title class="card-title-textArea" placeholder="Edit title..." 
+                            maxlength="8192">{{currentCard.title}}</textarea>
+                        <p class="card-title-error" *ngIf="cardTitleError | async">A card title must be unique inside a board</p>
+                        <div class="card-title-edition-controls">
+                            <a class="card-title-edition-save" type="button" (click)="saveTitle(title.value); stopPropagation($event)">save</a>
+                            <a class="card-title-edition-close" matSuffix mat-icon-button type="button" (click)="hiddenTitle = !hiddenTitle; stopPropagation($event); cardTitleError = false">
+                                <mat-icon>close</mat-icon>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-details-main-window">
+                    <div class="card-author">
+                        <div class="card-author-details">
+                            <span class="card-author-text">Author</span>
+                            <span class="author-name" [ngClass]="{'current-user': currentCard.author.id == currentUser.id }">
+                                {{reducePseudo(currentCard.author.pseudo)}}
+                                <span class="table-admin-icon" *ngIf="currentCard.author.id == tableOwnerId">
+                                    <mat-icon>double_arrow</mat-icon>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-details-members" *ngIf="currentCard.usersIn.length > 0">
+                        <div class="card-members-list-wrapper">
+                            <span class="card-members-text">Members</span>
+                            <ul class="card-members-list" *ngIf="currentCard.usersIn.length > 0">
+                                <li class="card-members" [ngClass]="{'current-user': userCard.id == currentUser.id }" *ngFor="let userCard of currentCard.usersIn">
+                                    {{reducePseudo(userCard.pseudo)}}
+                                    <span class="table-admin-icon" *ngIf="userCard.id == tableOwnerId">
+                                        <mat-icon>double_arrow</mat-icon>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-content-details">
+                            <span class="card-description-title">Description</span>
+                            <a class="card-content-edit" type="button" [hidden]="currentCard.content == '' || hidden" (click)="hidden = !hidden">Edit</a>
+                        </div>
+                        <div class="card-content-text-details" *ngIf="currentCard.content != ''" [hidden]="hidden">
+                            <span class="card-content-text">{{currentCard.content}}</span>
+                        </div>
+                        <div class="card-content-insertion" [hidden]="currentCard.content != '' || hidden">
+                            <a class="card-description-textArea-link-edition" (click)="hidden = !hidden">Add a more detailed description...</a>
+                        </div>
+                        <div class="card-content-edition" *ngIf="hidden">
+                            <textarea #description class="card-description-textArea" placeholder="Add a more detailed desription..." 
+                                (blur)="hidden = !hidden" maxlength="8192">{{currentCard.content}}</textarea>
+                            <div class="card-content-edition-controls">
+                                <a class="card-content-edition-save" type="button" (mousedown)="saveContent(description.value)">save</a>
+                                <a class="card-content-edition-close" matSuffix mat-icon-button type="button">
+                                    <mat-icon>close</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions-sidebar">
+                    <h3 class="sidebar-actions-title">Actions</h3>
+                    <ul class="card-list-actions">
+                        <li class="card-single-action" *ngIf="!iFollow()"><a class="card-action action-join" type="button" (click)="join()">Join card</a></li>
+                        <li class="card-single-action" *ngIf="iFollow()"><a class="card-action action-leave" type="button" (click)="leave()">Leave card</a></li>
+                        <li class="card-single-action" *ngIf="imAdmin()"><a class="card-action action-add-members" type="button" (click)="stopPropagation($event); addMembers = !addMembers; removeMembers = false; removeCard = false">Add member</a></li>
+                        <li class="card-single-action" *ngIf="addMembers">
+                            <card-update-members [action]="false" [cardId]="currentCard.id" [tableUsers]="tableUsers" [cardUsers]="currentCard.usersIn" (cardUsersChange)="updateUsersList($event)" (closeInput)="closeInput($event)"></card-update-members>
+                        </li>
+                        <li class="card-single-action" *ngIf="imAdmin()"><a class="card-action action-remove-members" type="button" (click)="stopPropagation($event); removeMembers = !removeMembers; addMembers = false; removeCard = false">Remove member</a></li>
+                        <li class="card-single-action" *ngIf="removeMembers">
+                            <card-update-members [action]="true" [cardId]="currentCard.id" [tableUsers]="tableUsers" [cardUsers]="currentCard.usersIn" (userRemove)="removeUserFromList($event)" (closeInput)="closeInput($event)"></card-update-members>
+                        </li>
+                        <li class="card-single-action" *ngIf="imAdmin()"><a class="card-action action-remove-card" type="button" (click)="stopPropagation($event); addMembers = false; removeMembers = false; removeCard =! removeCard">Remove card</a></li>
+                        <li class="card-single-action" #remove [hidden]="!removeCard">
+                            <div class="remove-card-window" *ngIf="removeCard">
+                                <div class="remove-card-header">
+                                    <span>Are you sure about removing this card ?</span>
+                                </div>
+                                <div class="remove-card-options">
+                                    <a class="remove-card-link" type="button" (click)="stopPropagation($event); delete(); removeCard =! removeCard"><span>Remove</span></a>
+                                    <a class="cancel-remove-action" type="button" (click)="stopPropagation($event); removeCard =! removeCard"><span>Cancel</span></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

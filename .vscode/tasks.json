@@ -1,0 +1,40 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run-servers",
+            "group": "build",
+            "dependsOn": [
+                "run-angular",
+                "run-dotnet"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "run-angular",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
+            "group": "build",
+            "presentation": {
+                "group": "servers"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "run-dotnet",
+            "type": "shell",
+            "command": "dotnet watch run",
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "group": "build",
+            "presentation": {
+                "group": "servers"
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

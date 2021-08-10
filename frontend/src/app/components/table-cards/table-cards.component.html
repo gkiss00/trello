@@ -1,0 +1,157 @@
+<div class="main-container">
+    <div class="table-header" *ngIf="table != null">
+        <div class="table-title-wrapper">
+            <h1 class="table-title">{{table.title}}</h1>
+        </div>
+        <div class="table-members-wrapper">
+            <ul class="table-members-list">
+                <li class="table-current-user">
+                    {{reducePseudo(currentUser.pseudo)}}
+                    <span class="table-admin-icon" *ngIf="currentUser.id == table.owner.id">
+                        <mat-icon>double_arrow</mat-icon>
+                    </span>
+                </li>
+                <li class="table-author" *ngIf="currentUser.id != table.owner.id">
+                    {{reducePseudo(table.owner.pseudo)}}
+                    <span class="table-admin-icon">
+                        <mat-icon>double_arrow</mat-icon>
+                    </span>
+                </li>
+                <li class="table-members" *ngFor="let user of table.usersIn">
+                    {{reducePseudo(user.pseudo)}}
+                </li>
+            </ul>
+        </div>
+        <div #newMember class="table-add-member-wrapper">
+            <div class="table-add-member" *ngIf="currentUser.id == table.owner.id">
+                <a class="invite-members" type="button" (click)="membersInput = !membersInput">Invite</a>
+                <div class="table-add-member-controls-wrapper" [hidden]="!membersInput">
+                    <a class="close-member-add-controls" matSuffix mat-icon-button type="button" (click)="membersInput = !membersInput; disabled = false; resetUsers(); username.value = ''">
+                        <mat-icon>close</mat-icon>
+                    </a>
+                    <div class="table-add-member-controls">
+                        <div class="member-controls-input-wrapper" [hidden]="disabled">
+                            <span class="member-controls-header">Invite members to the table</span>
+                            <input #username class="new-section-title" type="text" placeholder="Username..." [matAutocomplete]="auto" maxlength="20" (input)="searchUser(username.value)">
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUsername" (optionSelected)="optionValue=$event.option.value">
+                                <mat-option #autoCompleteOption *ngFor="let user of users | async" [disabled]="AlreadyJoined(user.id)" [value]="user" (click)="AlreadyJoined(user.id) || disabled = !disabled; stopPropagation($event);">
+                                    {{user.pseudo}}
+                                    <small *ngIf="AlreadyJoined(user.id)">Joined</small>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </div>
+                        <div class="member-controls-selected" [hidden]="!disabled">
+                            <span class="members-controls-header">Invite members to the table</span>
+                            <span class="members-controls-new-member-name" *ngIf="optionValue">
+                                {{optionValue.pseudo}}
+                                <a class="remove-new-member" matSuffix mat-icon-button type="button" (click)="disabled = !disabled; resetUsers(); username.value = ''">
+                                    <mat-icon>close</mat-icon>
+                                </a>
+                            </span>
+                        </div>
+                        <a class="add-member-disabled" type="button" *ngIf="!disabled">Add</a>
+                        <a class="add-member" type="button" *ngIf="disabled" (click)="addMember(optionValue);membersInput = !membersInput; disabled = !disabled; username.value = ''">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-leave-member" #leave>
+            <a class="leave-table" type="button" (click)="leaveTable = !leaveTable" [hidden]="currentUser.id == table.owner.id">Leave board</a>
+            <a class="leave-table" type="button" (click)="leaveTable = !leaveTable" [hidden]="currentUser.id != table.owner.id">Erase board</a>
+            <div class="leave-table-wrapper" [hidden]="!leaveTable">
+                <div class="leave-table-window" *ngIf="leaveTable">
+                    <div class="leave-table-header">
+                        <span *ngIf="currentUser.id != table.owner.id">Are you sure about leaving the board ?</span>
+                        <span *ngIf="currentUser.id == table.owner.id">Are you sure about removing the board ?</span>
+                    </div>
+                    <div class="leave-table-options">
+                        <a class="leave-table-link" type="button" *ngIf="currentUser.id != table.owner.id" (click)="leaveBoard(); stopPropagation($event); leaveTable =! leaveTable"><span>Leave</span></a>
+                        <a class="leave-table-link" type="button" *ngIf="currentUser.id == table.owner.id" (click)="removeBoard(); stopPropagation($event); leaveTable =! leaveTable"><span>Remove</span></a>
+                        <a class="cancel-leave-action" type="button" (click)="stopPropagation($event); leaveTable =! leaveTable"><span>Cancel</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table-member-remove *ngIf="currentUser.id == table.owner.id" [tableUsers]="table.usersIn" (userRemove)="removeMember($event)"></table-member-remove>
+    </div>
+    <div class="table-sections-content">
+        <div class="sections-list-wrapper" *ngIf="table != null" cdkDropListGroup>
+            <div class="sections-list" *ngFor="let section of table.sections; let index = index;">
+                <div class="section-title">
+                    <span [ngClass]="'section-title-text'" *ngIf="!editSection[index]">{{section.title}}</span>
+                    <input #sectionEdit class="section-title-edit" type="text" [(ngModel)]="sectionEditValue" *ngIf="editSection[index]" placeholder="new Section title..." (keyup.enter)="editSectionTitle(section.id); editSection[index] = !editSection[index]" maxlength="512">
+                    <div class="section-edit-options">
+                        <a #sectionEdit class="section-edit" [ngClass]="'section-' + index " type="button" (click)="closeEditWindows(index); selectedSection = section.id; editSection[index] = !editSection[index]; sectionTitleEdit = true;">
+                            <mat-icon>edit</mat-icon>
+                        </a>
+                        <a #sectionErase class="section-erase" [ngClass]="'section-' + index " type="button" *ngIf="currentUser.id == table.owner.id" (click)="closeEraseWindows(index); eraseSection[index] = !eraseSection[index]">
+                            <mat-icon>delete</mat-icon>
+                        </a>
+                    </div>
+                    <div #sectionErase class="erase-section-window" [hidden]="!eraseSection[index]">
+                        <div class="erase-section-header">
+                            <span>Are you sure about erasing section "{{section.title}}" ?</span>
+                        </div>
+                        <div class="erase-section-options">
+                            <a class="erase-section-link" type="button" (click)="removeSection(section.id); stopPropagation($event); eraseSection[index] =! eraseSection[index]"><span>Remove</span></a>
+                            <a class="cancel-erase-action" type="button" (click)="stopPropagation($event); eraseSection[index] =! eraseSection[index]"><span>Cancel</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sections-cards-wrapper" cdkDropList [cdkDropListData]="section.cards" (cdkDropListDropped)="drop($event)">
+                    <div class="section-cards" [cdkDragData]="[card.id, index]" *ngFor="let card of section.cards" cdkDrag>
+                        <div class="section-card">
+                            <a type="button" class="section-card-link" (click)="stopPropagation($event); editCard(card, section.id); cardEdit = !cardEdit">
+                                <span class="card-title">{{card.title}}</span>
+                                <ul class="card-members-list" *ngIf="card.usersIn.length > 0">
+                                    <li class="card-members" [ngClass]="{'current-user': userCard.id == currentUser.id }" *ngFor="let userCard of card.usersIn">
+                                        {{reducePseudo(userCard.pseudo)}}
+                                        <span class="table-admin-icon" *ngIf="userCard.id == table.owner.id">
+                                            <mat-icon>double_arrow</mat-icon>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div #newCard class="new-card-form" [hidden]="selectedId != section.id">
+                    <div class="new-card-details">
+                        <textarea #titleText matInput class="new-card-title" placeholder="Enter the card title..." maxlength="8192"></textarea>
+                        <p class="card-title-error" *ngIf="cardTitleError">A card title must be unique inside a board</p>
+                    </div>
+                    <div class="new-card-form-controls">
+                        <a type="button" class="new-card-form-add" (click)="addCard(titleText.value, section.id); titleText.value=''">Add card</a>
+                        <a class="new-card-form-cancel" matSuffix mat-icon-button (click)="selectedId = -1; titleText.value=''; cardTitleError = false">
+                            <mat-icon>close</mat-icon>
+                        </a>
+                    </div>
+                </div>
+                <div #newCard class="section-new-card" [hidden]="selectedId == section.id">
+                    <a class="create-new-card" (click)="selectedId = section.id; titleText.value=''">
+                        <span class="new-card-placeholder">
+                            <span class="material-icons">add</span> Add another card
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div #newCard class="new-section-list" [class.new-section-form-opened]="hidden">
+                <a class="open-add-section" [hidden]="hidden" (click)="hidden = !hidden">
+                    <span class="place-holder">
+                        <span class="material-icons">add</span> Add new section
+                    </span>
+                </a>
+                <div class="new-section-details" [hidden]="!hidden">
+                    <input #sectionTitle class="new-section-title" type="text" placeholder="Enter the section title..." maxlength="512">
+                </div>
+                <div class="new-section-controls" [hidden]="!hidden">
+                    <a type="button" class="new-section-add" (click)="addSection(sectionTitle.value); sectionTitle.value=''">Add section</a>
+                    <a class="new-section-cancel" matSuffix mat-icon-button (click)="hidden = !hidden; sectionTitle.value=''">
+                        <mat-icon>close</mat-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <cards-details *ngIf="cardEdit" [tableUsers]="tableUsers()" [tableOwnerId]="table.owner.id" [currentCardId]="currentCard.id" (cardChange)="cardUpdate($event)" (closeRequest)="close($event)"></cards-details>
+</div>
